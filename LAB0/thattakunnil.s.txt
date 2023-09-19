@@ -1,0 +1,2 @@
+Installed Ubuntu
+Installed git and pushed src using CLI
