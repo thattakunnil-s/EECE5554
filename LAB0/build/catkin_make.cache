@@ -1,0 +1,2 @@
+beginner_tutorials
+-DCATKIN_DEVEL_PREFIX=/home/steffit/Downloads/EECE5554/LAB0/devel -DCMAKE_INSTALL_PREFIX=/home/steffit/Downloads/EECE5554/LAB0/install -G Unix Makefiles
