@@ -16,6 +16,7 @@ def read(port):
   while not rospy.is_shutdown():
      data = port.readline()
      data_str = data.decode('utf-8')
+     print(data_str)
      #if data == '':
 	#rospy.logwarn("GPS: No data")
      data_split = data_str.split(',')
