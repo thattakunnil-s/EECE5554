@@ -16,10 +16,11 @@ def read(port):
   while not rospy.is_shutdown():
      data = port.readline()
      data_str = data.decode('utf-8')
+     print(data_str)
      #if data == '':
 	#rospy.logwarn("GPS: No data")
      data_split = data_str.split(',')
-     if '$GPGAA' in data_split[0]:
+     if '$GPGGA' in data_split[0]:
         lat = float(data_split[2])
         lat_direction = data_split[3]
         latitude = math.trunc(lat/100) + math.trunc((lat/100 - math.trunc(lat/100))*100)/60 + (lat - math.trunc(lat))*100/3600
@@ -44,6 +45,7 @@ def read(port):
         msg.Altitude = altitude
         msg.HDOP = hdop
         msg.UTM_easting, msg.UTM_northing, msg.Zone, msg.Letter = utm.from_latlon(latitude, longitude)
+	print(msg)
         publisher.publish(msg)
 
 if __name__ == '__main__':
