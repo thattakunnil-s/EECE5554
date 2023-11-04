@@ -29,7 +29,6 @@ class gps_msg {
       this.UTC = null;
       this.Zone = null;
       this.Letter = null;
-      this.Fix = null;
     }
     else {
       if (initObj.hasOwnProperty('Header')) {
@@ -92,12 +91,6 @@ class gps_msg {
       else {
         this.Letter = '';
       }
-      if (initObj.hasOwnProperty('Fix')) {
-        this.Fix = initObj.Fix
-      }
-      else {
-        this.Fix = 0.0;
-      }
     }
   }
 
@@ -123,8 +116,6 @@ class gps_msg {
     bufferOffset = _serializer.int64(obj.Zone, buffer, bufferOffset);
     // Serialize message field [Letter]
     bufferOffset = _serializer.string(obj.Letter, buffer, bufferOffset);
-    // Serialize message field [Fix]
-    bufferOffset = _serializer.float64(obj.Fix, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -152,8 +143,6 @@ class gps_msg {
     data.Zone = _deserializer.int64(buffer, bufferOffset);
     // Deserialize message field [Letter]
     data.Letter = _deserializer.string(buffer, bufferOffset);
-    // Deserialize message field [Fix]
-    data.Fix = _deserializer.float64(buffer, bufferOffset);
     return data;
   }
 
@@ -161,7 +150,7 @@ class gps_msg {
     let length = 0;
     length += std_msgs.msg.Header.getMessageSize(object.Header);
     length += _getByteLength(object.Letter);
-    return length + 76;
+    return length + 68;
   }
 
   static datatype() {
@@ -171,7 +160,7 @@ class gps_msg {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '2d8b6928e05a4e859e28c97be60310db';
+    return '66b6da1d45662ada473059e6ceda61cd';
   }
 
   static messageDefinition() {
@@ -187,7 +176,6 @@ class gps_msg {
     float64 UTC
     int64 Zone
     string Letter
-    float64 Fix
     
     
     ================================================================================
@@ -283,13 +271,6 @@ class gps_msg {
     }
     else {
       resolved.Letter = ''
-    }
-
-    if (msg.Fix !== undefined) {
-      resolved.Fix = msg.Fix;
-    }
-    else {
-      resolved.Fix = 0.0
     }
 
     return resolved;

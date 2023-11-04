@@ -34,8 +34,7 @@ struct gps_msg_
     , UTM_northing(0.0)
     , UTC(0.0)
     , Zone(0)
-    , Letter()
-    , Fix(0.0)  {
+    , Letter()  {
     }
   gps_msg_(const ContainerAllocator& _alloc)
     : Header(_alloc)
@@ -47,8 +46,7 @@ struct gps_msg_
     , UTM_northing(0.0)
     , UTC(0.0)
     , Zone(0)
-    , Letter(_alloc)
-    , Fix(0.0)  {
+    , Letter(_alloc)  {
   (void)_alloc;
     }
 
@@ -83,9 +81,6 @@ struct gps_msg_
 
    typedef std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> _Letter_type;
   _Letter_type Letter;
-
-   typedef double _Fix_type;
-  _Fix_type Fix;
 
 
 
@@ -125,8 +120,7 @@ bool operator==(const ::gps_driver::gps_msg_<ContainerAllocator1> & lhs, const :
     lhs.UTM_northing == rhs.UTM_northing &&
     lhs.UTC == rhs.UTC &&
     lhs.Zone == rhs.Zone &&
-    lhs.Letter == rhs.Letter &&
-    lhs.Fix == rhs.Fix;
+    lhs.Letter == rhs.Letter;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -183,12 +177,12 @@ struct MD5Sum< ::gps_driver::gps_msg_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "2d8b6928e05a4e859e28c97be60310db";
+    return "66b6da1d45662ada473059e6ceda61cd";
   }
 
   static const char* value(const ::gps_driver::gps_msg_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x2d8b6928e05a4e85ULL;
-  static const uint64_t static_value2 = 0x9e28c97be60310dbULL;
+  static const uint64_t static_value1 = 0x66b6da1d45662adaULL;
+  static const uint64_t static_value2 = 0x473059e6ceda61cdULL;
 };
 
 template<class ContainerAllocator>
@@ -217,7 +211,6 @@ struct Definition< ::gps_driver::gps_msg_<ContainerAllocator> >
 "float64 UTC\n"
 "int64 Zone\n"
 "string Letter\n"
-"float64 Fix\n"
 "\n"
 "\n"
 "================================================================================\n"
@@ -263,7 +256,6 @@ namespace serialization
       stream.next(m.UTC);
       stream.next(m.Zone);
       stream.next(m.Letter);
-      stream.next(m.Fix);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -303,8 +295,6 @@ struct Printer< ::gps_driver::gps_msg_<ContainerAllocator> >
     Printer<int64_t>::stream(s, indent + "  ", v.Zone);
     s << indent << "Letter: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>::stream(s, indent + "  ", v.Letter);
-    s << indent << "Fix: ";
-    Printer<double>::stream(s, indent + "  ", v.Fix);
   }
 };
 

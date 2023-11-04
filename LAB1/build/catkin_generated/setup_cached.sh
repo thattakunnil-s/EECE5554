@@ -10,7 +10,7 @@
 export CMAKE_PREFIX_PATH="/home/steffit/Downloads/EECE5554/LAB1/devel:$CMAKE_PREFIX_PATH"
 export LD_LIBRARY_PATH="/home/steffit/Downloads/EECE5554/LAB1/devel/lib:$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="/home/steffit/Downloads/EECE5554/LAB1/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PWD='/home/steffit/Downloads/Structure_Checker/EECE5554/LAB1/build'
+export PWD='/home/steffit/Downloads/EECE5554/LAB1/build'
 export PYTHONPATH="/home/steffit/Downloads/EECE5554/LAB1/devel/lib/python3/dist-packages:$PYTHONPATH"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/steffit/Downloads/EECE5554/LAB1/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
+export ROSLISP_PACKAGE_DIRECTORIES='/home/steffit/Downloads/EECE5554/LAB1/devel/share/common-lisp'
 export ROS_PACKAGE_PATH="/home/steffit/Downloads/EECE5554/LAB1/src:$ROS_PACKAGE_PATH"

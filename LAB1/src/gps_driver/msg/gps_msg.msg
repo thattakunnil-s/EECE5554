@@ -8,5 +8,4 @@ float64 UTM_northing
 float64 UTC
 int64 Zone
 string Letter
-float64 Fix
 

@@ -16,7 +16,7 @@
 
 (defclass gps_driver::gps_msg
   :super ros::object
-  :slots (_Header _Latitude _Longitude _Altitude _HDOP _UTM_easting _UTM_northing _UTC _Zone _Letter _Fix ))
+  :slots (_Header _Latitude _Longitude _Altitude _HDOP _UTM_easting _UTM_northing _UTC _Zone _Letter ))
 
 (defmethod gps_driver::gps_msg
   (:init
@@ -31,7 +31,6 @@
     ((:UTC __UTC) 0.0)
     ((:Zone __Zone) 0)
     ((:Letter __Letter) "")
-    ((:Fix __Fix) 0.0)
     )
    (send-super :init)
    (setq _Header __Header)
@@ -44,7 +43,6 @@
    (setq _UTC (float __UTC))
    (setq _Zone (round __Zone))
    (setq _Letter (string __Letter))
-   (setq _Fix (float __Fix))
    self)
   (:Header
    (&rest __Header)
@@ -80,9 +78,6 @@
   (:Letter
    (&optional __Letter)
    (if __Letter (setq _Letter __Letter)) _Letter)
-  (:Fix
-   (&optional __Fix)
-   (if __Fix (setq _Fix __Fix)) _Fix)
   (:serialization-length
    ()
    (+
@@ -106,8 +101,6 @@
     8
     ;; string _Letter
     4 (length _Letter)
-    ;; float64 _Fix
-    8
     ))
   (:serialize
    (&optional strm)
@@ -143,8 +136,6 @@
               (write-long _Zone s)(write-long (if (>= _Zone 0) 0 #xffffffff) s)))
      ;; string _Letter
        (write-long (length _Letter) s) (princ _Letter s)
-     ;; float64 _Fix
-       (sys::poke _Fix (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -179,13 +170,11 @@
                     (t (make-instance bignum :size 2 :bv (integer-vector b0 (ash b1 1)))))))
    ;; string _Letter
      (let (n) (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4) (setq _Letter (subseq buf ptr- (+ ptr- n))) (incf ptr- n))
-   ;; float64 _Fix
-     (setq _Fix (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;;
    self)
   )
 
-(setf (get gps_driver::gps_msg :md5sum-) "2d8b6928e05a4e859e28c97be60310db")
+(setf (get gps_driver::gps_msg :md5sum-) "66b6da1d45662ada473059e6ceda61cd")
 (setf (get gps_driver::gps_msg :datatype-) "gps_driver/gps_msg")
 (setf (get gps_driver::gps_msg :definition-)
       "std_msgs/Header Header
@@ -198,7 +187,6 @@ float64 UTM_northing
 float64 UTC
 int64 Zone
 string Letter
-float64 Fix
 
 
 ================================================================================
@@ -221,6 +209,6 @@ string frame_id
 
 
 
-(provide :gps_driver/gps_msg "2d8b6928e05a4e859e28c97be60310db")
+(provide :gps_driver/gps_msg "66b6da1d45662ada473059e6ceda61cd")
 
 
