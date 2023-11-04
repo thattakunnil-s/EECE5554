@@ -56,7 +56,12 @@
     :reader Letter
     :initarg :Letter
     :type cl:string
-    :initform ""))
+    :initform "")
+   (Fix
+    :reader Fix
+    :initarg :Fix
+    :type cl:float
+    :initform 0.0))
 )
 
 (cl:defclass gps_msg (<gps_msg>)
@@ -116,6 +121,11 @@
 (cl:defmethod Letter-val ((m <gps_msg>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader gps_driver-msg:Letter-val is deprecated.  Use gps_driver-msg:Letter instead.")
   (Letter m))
+
+(cl:ensure-generic-function 'Fix-val :lambda-list '(m))
+(cl:defmethod Fix-val ((m <gps_msg>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader gps_driver-msg:Fix-val is deprecated.  Use gps_driver-msg:Fix instead.")
+  (Fix m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <gps_msg>) ostream)
   "Serializes a message object of type '<gps_msg>"
   (roslisp-msg-protocol:serialize (cl:slot-value msg 'Header) ostream)
@@ -198,6 +208,15 @@
     (cl:write-byte (cl:ldb (cl:byte 8 16) __ros_str_len) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) __ros_str_len) ostream))
   (cl:map cl:nil #'(cl:lambda (c) (cl:write-byte (cl:char-code c) ostream)) (cl:slot-value msg 'Letter))
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'Fix))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <gps_msg>) istream)
   "Deserializes a message object of type '<gps_msg>"
@@ -290,6 +309,16 @@
       (cl:setf (cl:slot-value msg 'Letter) (cl:make-string __ros_str_len))
       (cl:dotimes (__ros_str_idx __ros_str_len msg)
         (cl:setf (cl:char (cl:slot-value msg 'Letter) __ros_str_idx) (cl:code-char (cl:read-byte istream)))))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'Fix) (roslisp-utils:decode-double-float-bits bits)))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<gps_msg>)))
@@ -300,16 +329,16 @@
   "gps_driver/gps_msg")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<gps_msg>)))
   "Returns md5sum for a message object of type '<gps_msg>"
-  "66b6da1d45662ada473059e6ceda61cd")
+  "2d8b6928e05a4e859e28c97be60310db")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'gps_msg)))
   "Returns md5sum for a message object of type 'gps_msg"
-  "66b6da1d45662ada473059e6ceda61cd")
+  "2d8b6928e05a4e859e28c97be60310db")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<gps_msg>)))
   "Returns full string definition for message of type '<gps_msg>"
-  (cl:format cl:nil "std_msgs/Header Header~%float64 Latitude~%float64 Longitude~%float64 Altitude~%float64 HDOP~%float64 UTM_easting~%float64 UTM_northing~%float64 UTC~%int64 Zone~%string Letter~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%string frame_id~%~%~%"))
+  (cl:format cl:nil "std_msgs/Header Header~%float64 Latitude~%float64 Longitude~%float64 Altitude~%float64 HDOP~%float64 UTM_easting~%float64 UTM_northing~%float64 UTC~%int64 Zone~%string Letter~%float64 Fix~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%string frame_id~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'gps_msg)))
   "Returns full string definition for message of type 'gps_msg"
-  (cl:format cl:nil "std_msgs/Header Header~%float64 Latitude~%float64 Longitude~%float64 Altitude~%float64 HDOP~%float64 UTM_easting~%float64 UTM_northing~%float64 UTC~%int64 Zone~%string Letter~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%string frame_id~%~%~%"))
+  (cl:format cl:nil "std_msgs/Header Header~%float64 Latitude~%float64 Longitude~%float64 Altitude~%float64 HDOP~%float64 UTM_easting~%float64 UTM_northing~%float64 UTC~%int64 Zone~%string Letter~%float64 Fix~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%string frame_id~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <gps_msg>))
   (cl:+ 0
      (roslisp-msg-protocol:serialization-length (cl:slot-value msg 'Header))
@@ -322,6 +351,7 @@
      8
      8
      4 (cl:length (cl:slot-value msg 'Letter))
+     8
 ))
 (cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <gps_msg>))
   "Converts a ROS message object to a list"
@@ -336,4 +366,5 @@
     (cl:cons ':UTC (UTC msg))
     (cl:cons ':Zone (Zone msg))
     (cl:cons ':Letter (Letter msg))
+    (cl:cons ':Fix (Fix msg))
 ))

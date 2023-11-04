@@ -9,7 +9,7 @@ import struct
 import std_msgs.msg
 
 class gps_msg(genpy.Message):
-  _md5sum = "66b6da1d45662ada473059e6ceda61cd"
+  _md5sum = "2d8b6928e05a4e859e28c97be60310db"
   _type = "gps_driver/gps_msg"
   _has_header = False  # flag to mark the presence of a Header object
   _full_text = """std_msgs/Header Header
@@ -22,6 +22,7 @@ float64 UTM_northing
 float64 UTC
 int64 Zone
 string Letter
+float64 Fix
 
 
 ================================================================================
@@ -40,8 +41,8 @@ time stamp
 #Frame this data is associated with
 string frame_id
 """
-  __slots__ = ['Header','Latitude','Longitude','Altitude','HDOP','UTM_easting','UTM_northing','UTC','Zone','Letter']
-  _slot_types = ['std_msgs/Header','float64','float64','float64','float64','float64','float64','float64','int64','string']
+  __slots__ = ['Header','Latitude','Longitude','Altitude','HDOP','UTM_easting','UTM_northing','UTC','Zone','Letter','Fix']
+  _slot_types = ['std_msgs/Header','float64','float64','float64','float64','float64','float64','float64','int64','string','float64']
 
   def __init__(self, *args, **kwds):
     """
@@ -51,7 +52,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       Header,Latitude,Longitude,Altitude,HDOP,UTM_easting,UTM_northing,UTC,Zone,Letter
+       Header,Latitude,Longitude,Altitude,HDOP,UTM_easting,UTM_northing,UTC,Zone,Letter,Fix
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -80,6 +81,8 @@ string frame_id
         self.Zone = 0
       if self.Letter is None:
         self.Letter = ''
+      if self.Fix is None:
+        self.Fix = 0.
     else:
       self.Header = std_msgs.msg.Header()
       self.Latitude = 0.
@@ -91,6 +94,7 @@ string frame_id
       self.UTC = 0.
       self.Zone = 0
       self.Letter = ''
+      self.Fix = 0.
 
   def _get_types(self):
     """
@@ -120,6 +124,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.Fix
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -160,6 +166,9 @@ string frame_id
         self.Letter = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.Letter = str[start:end]
+      start = end
+      end += 8
+      (self.Fix,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -188,6 +197,8 @@ string frame_id
         _x = _x.encode('utf-8')
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
+      _x = self.Fix
+      buff.write(_get_struct_d().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -229,6 +240,9 @@ string frame_id
         self.Letter = str[start:end].decode('utf-8', 'rosmsg')
       else:
         self.Letter = str[start:end]
+      start = end
+      end += 8
+      (self.Fix,) = _get_struct_d().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -249,3 +263,9 @@ def _get_struct_7dq():
     if _struct_7dq is None:
         _struct_7dq = struct.Struct("<7dq")
     return _struct_7dq
+_struct_d = None
+def _get_struct_d():
+    global _struct_d
+    if _struct_d is None:
+        _struct_d = struct.Struct("<d")
+    return _struct_d

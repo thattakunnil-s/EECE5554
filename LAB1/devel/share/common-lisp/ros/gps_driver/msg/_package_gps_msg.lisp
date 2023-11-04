@@ -19,4 +19,6 @@
           ZONE
           LETTER-VAL
           LETTER
+          FIX-VAL
+          FIX
 ))

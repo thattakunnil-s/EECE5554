@@ -1,0 +1,2 @@
+imu_driver
+-DCATKIN_DEVEL_PREFIX=/home/steffit/Downloads/EECE5554/LAB3/devel -DCMAKE_INSTALL_PREFIX=/home/steffit/Downloads/EECE5554/LAB3/install -G Unix Makefiles
