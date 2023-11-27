@@ -1,0 +1,75 @@
+Moving
+
+Gyroscope (Angular Velocity) Axis X Stats:
+Mean: 4.087058052255947
+Median: 4.057442
+Standard Deviation: 0.47261944255723526
+Best Fit Distribution: lognorm
+Best Fit Parameters: (0.01840727288903505, -21.562206797223872, 25.64491750507925)
+Gyroscope (Angular Velocity) Axis Y Stats:
+Mean: 4.805462270631666
+Median: 4.811463
+Standard Deviation: 0.7417428942190043
+Best Fit Distribution: norm
+Best Fit Parameters: (4.805462270631666, 0.7417124693581773)
+Gyroscope (Angular Velocity) Axis Z Stats:
+Mean: 3.6173046156685804
+Median: 3.6009545
+Standard Deviation: 0.6076075882318412
+Best Fit Distribution: gamma
+Best Fit Parameters: (363.3356781636717, -8.007227328404454, 0.03198821819014197)
+Accelerometer Axis X Stats:
+Mean: 13.280016981132077
+Median: 13.177999999999999
+Standard Deviation: 5.0904613906341405
+Best Fit Distribution: weibull_min
+Best Fit Parameters: (2.9111851656179577, -0.11280096278475744, 15.050742225395458)
+Accelerometer Axis Y Stats:
+Mean: 20.16311632485644
+Median: 21.130499999999998
+Standard Deviation: 3.3152469551853736
+Best Fit Distribution: norm
+Best Fit Parameters: (20.16311632485644, 3.3151109701587496)
+Accelerometer Axis Z Stats:
+Mean: 14.134755127153404
+Median: 13.982500000000002
+Standard Deviation: 3.90246431120465
+Best Fit Distribution: gamma
+Best Fit Parameters: (122.23853200938322, -29.021703949876986, 0.3530511960830125)
+Magnetometer Axis X Stats:
+Mean: 3.3549114027891716e-05
+Median: 3.1950000000000004e-05
+Standard Deviation: 1.7849656841479087e-05
+Best Fit Distribution: weibull_min
+Best Fit Parameters: (2.1828585605953297, -3.160385537166262e-06, 4.1465938949442635e-05)
+Magnetometer Axis Y Stats:
+Mean: 1.7919148482362597e-05
+Median: 1.5050000000000007e-05
+Standard Deviation: 1.2234170248279917e-05
+Best Fit Distribution: lognorm
+Best Fit Parameters: (0.410070299949191, -9.265872327005508e-06, 2.4913864069995747e-05)
+Magnetometer Axis Z Stats:
+Mean: 3.117935274815422e-05
+Median: 3.204e-05
+Standard Deviation: 1.4401590814311745e-05
+Best Fit Distribution: gamma
+Best Fit Parameters: (392.40433096426386, -0.0002561249945884051, 7.319328096647343e-07)
+Roll_X Stats:
+Mean: -0.011475416680962781
+Median: -0.013627642418118424
+Standard Deviation: 0.006032098825909373
+Best Fit Distribution: weibull_min
+Best Fit Parameters: (0.9885700238498547, -0.017457695099459825, 0.005954453329332407)
+Pitch_Y Stats:
+Mean: -0.0010080121549463745
+Median: -0.0011869387947824155
+Standard Deviation: 0.009126548850774109
+Best Fit Distribution: norm
+Best Fit Parameters: (-0.0010080121549463745, 0.009126548850774109)
+Yaw_Z Stats:
+Mean: 0.0005579021952951547
+Median: 0.0017494621403682455
+Standard Deviation: 0.009938829748635128
+Best Fit Distribution: gamma
+Best Fit Parameters: (563.1145586101975, -0.23625147393809232, 0.00042048038759088103)
+

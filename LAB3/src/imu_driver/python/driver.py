@@ -4,9 +4,8 @@ import rospy
 from std_msgs.msg import Header
 from sensor_msgs.msg import Imu, MagneticField
 from imu_driver.msg import imu_msg
-from imu_driver.srv import convert_to_quaternion, convert_to_quaternionResponse
+from imu_driver.srv import convert_to_quaternion
 import serial
-import math
 import sys
 
 def append_checksum(nmea_command):
@@ -22,42 +21,18 @@ def configure_imu(serial_connection):
     configure_output_message = append_checksum(f"VNWRG,75,2,{divisor},01,0029")
     serial_connection.write(configure_output_message.encode())
 
-def quaternion_conversion(roll, pitch, yaw):
+def euler_to_quaternion(roll, pitch, yaw):
     rospy.wait_for_service('convert_to_quaternion')
     try:
         convert_service = rospy.ServiceProxy('convert_to_quaternion', convert_to_quaternion)
-        quaternion = convert_service(roll, pitch, yaw)
-        return quaternion.x, quaternion.y, quaternion.z, quaternion.w
+        resp = convert_service(roll, pitch, yaw)
+        return resp.x, resp.y, resp.z, resp.w
     except rospy.ServiceException as e:
-        rospy.logerr("Service call failed: %s" % e)
-        sys.exit(1)
-
-def handle_convert_to_quaternion(req):
-    roll = req.roll
-    pitch = req.pitch
-    yaw = req.yaw
-
-    cy = math.cos(yaw * 0.5)
-    sy = math.sin(yaw * 0.5)
-    cp = math.cos(pitch * 0.5)
-    sp = math.sin(pitch * 0.5)
-    cr = math.cos(roll * 0.5)
-    sr = math.sin(roll * 0.5)
-
-    w = cr * cp * cy + sr * sp * sy
-    x = sr * cp * cy - cr * sp * sy
-    y = cr * sp * cy + sr * cp * sy
-    z = cr * cp * sy - sr * sp * cy
-
-    return convert_to_quaternionResponse(x, y, z, w)
-      
-def convert_to_quaternion_server():
-    s = rospy.Service('convert_to_quaternion', convert_to_quaternion, handle_convert_to_quaternion)
+        print("Service call failed: %s" % e)
 
 def read_imu_data(serial_port):
     imu_publisher = rospy.Publisher('imu', imu_msg, queue_size=10)
     rospy.init_node('imu_data_reader', anonymous=True)
-    convert_to_quaternion_server()
     serial_connection = serial.Serial(serial_port, 115200)
     configure_imu(serial_connection)
     
@@ -69,7 +44,7 @@ def read_imu_data(serial_port):
             orientation_yaw = float(data_elements[1])
             orientation_pitch = float(data_elements[2])
             orientation_roll = float(data_elements[3])
-
+            
             imu_data = imu_msg()
             header = Header()
             header.stamp = rospy.Time.now()
@@ -90,12 +65,12 @@ def read_imu_data(serial_port):
 
             imu_data.IMU_backup = raw_data
 
-            quaternion = quaternion_conversion(orientation_roll, orientation_pitch, orientation_yaw)
+            quaternion = euler_to_quaternion(orientation_roll, orientation_pitch, orientation_yaw)
             imu_data.IMU.orientation.x = quaternion[0]
             imu_data.IMU.orientation.y = quaternion[1]
             imu_data.IMU.orientation.z = quaternion[2]
             imu_data.IMU.orientation.w = quaternion[3]
-
+            
             rospy.loginfo(imu_data)
             imu_publisher.publish(imu_data)
 
@@ -105,3 +80,4 @@ if __name__ == '__main__':
         read_imu_data(serial_port_param)
     except rospy.ROSInterruptException:
         pass
+
