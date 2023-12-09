@@ -1,0 +1,12 @@
+<launch>
+    <arg name='gps_port'/>
+    <arg name='imu_port'/>
+    <node name="gps" pkg="gps_imu_driver" type="gps_driver.py" output="screen">
+        <param name='port' value='$(arg gps_port)'/>
+    </node>
+    <node name="imu" pkg="gps_imu_driver" type="imu_driver.py" output="screen">
+        <param name='port' value='$(arg imu_port)'/>
+    </node>
+    <node name="convert_to_quaternion" pkg="imu_driver" type="convert_to_quaternion.py" />
+</launch>
+

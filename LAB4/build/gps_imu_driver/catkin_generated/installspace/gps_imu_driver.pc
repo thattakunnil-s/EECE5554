@@ -1,0 +1,8 @@
+prefix=/home/steffit/Downloads/EECE5554/LAB4/install
+
+Name: gps_imu_driver
+Description: Description of gps_imu_driver
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs sensor_msgs geometry_msgs message_runtime
